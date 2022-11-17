@@ -26,18 +26,17 @@ def openTextFiletoArray(fileName,type):
     elif type == "address":
             for textLine in openFile:
                 array.append([ textLine ])
+    openFile.close()
     return array
 
-#textFile = 'C:/Users/Dell Inspiron/OneDrive/Escritorio/address.txt'
-#datos = np.genfromtxt(textFile, delimiter=',', dtype='object')
-
+#Function to construct an array how is index by SS Factor Rules in desendat order
 def applySSFactorAlgorithm(arrOfDrivers,arrOfAddress):
     arrIndexBySS = []
     for driver in arrOfDrivers:
         driversName = driver[0]
         for address in arrOfAddress:
             addressName = address[0]
-            if len(driversName) == len(addressName):
+            if len(driversName) == len(addressName): #<-- multiplay by 1.5 when driver's name and address's name have the same leng 
                 boostFactorSS = 1.5
             else:
                 boostFactorSS = 1
@@ -47,7 +46,7 @@ def applySSFactorAlgorithm(arrOfDrivers,arrOfAddress):
                 factorSS = driver[2] * boostFactorSS * 1 #<-- Multiplay Consonants per Address SS factor
             arrIndexBySS.append([factorSS, driversName, addressName]) #<-- Matrix SS value, Driver's 
     arrIndexBySS = np.array(arrIndexBySS)
-    arrIndexBySS = arrIndexBySS[arrIndexBySS[:, 0].argsort()][::-1]
+    arrIndexBySS = arrIndexBySS[arrIndexBySS[:, 0].argsort()][::-1] #<-- Apply desendat order rule by factorSS 
     return arrIndexBySS
 
 def getBestRoutes(arrIndexBySS):
@@ -61,13 +60,4 @@ def getBestRoutes(arrIndexBySS):
         if len(arrIndexBySS) == 0:
             isEmptyArray = True
     return bestRoutes
-
-arrOfAddress = openTextFiletoArray('C:/Users/Dell Inspiron/OneDrive/Escritorio/address.txt','address')
-arrOfDrivers = openTextFiletoArray('C:/Users/Dell Inspiron/OneDrive/Escritorio/drivers.txt','driver')
-arrIndexBySS = applySSFactorAlgorithm(arrOfDrivers,arrOfAddress)
-bestRoutes = getBestRoutes(arrIndexBySS)
-
-for row in bestRoutes:
-    print(row)
-
 
