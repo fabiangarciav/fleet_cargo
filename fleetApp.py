@@ -1,6 +1,5 @@
 import numpy as np
 
-
 # Function that return the number of vowels in a string
 def countVowels(string):
     num_vowels = 0
@@ -29,11 +28,8 @@ def openTextFiletoArray(fileName,type):
                 array.append([ textLine ])
     return array
 
-
-
 #textFile = 'C:/Users/Dell Inspiron/OneDrive/Escritorio/address.txt'
 #datos = np.genfromtxt(textFile, delimiter=',', dtype='object')
-
 
 def applySSFactorAlgorithm(arrOfDrivers,arrOfAddress):
     arrIndexBySS = []
@@ -54,23 +50,22 @@ def applySSFactorAlgorithm(arrOfDrivers,arrOfAddress):
     arrIndexBySS = arrIndexBySS[arrIndexBySS[:, 0].argsort()][::-1]
     return arrIndexBySS
 
+def getBestRoutes(arrIndexBySS):
+    bestRoutes = []
+    isEmptyArray = False
+    row = 0
+    while isEmptyArray != True:
+        bestRoutes.append(arrIndexBySS[row])
+        indexForDelete = np.where( (arrIndexBySS == arrIndexBySS[row,1]) | (arrIndexBySS == arrIndexBySS[row,2]) )[0]
+        arrIndexBySS = np.delete(arrIndexBySS, indexForDelete, axis=0)
+        if len(arrIndexBySS) == 0:
+            isEmptyArray = True
+    return bestRoutes
+
 arrOfAddress = openTextFiletoArray('C:/Users/Dell Inspiron/OneDrive/Escritorio/address.txt','address')
 arrOfDrivers = openTextFiletoArray('C:/Users/Dell Inspiron/OneDrive/Escritorio/drivers.txt','driver')
-
-#arrOfSS = np.array(arrOfSS)
-#arrOfSS = arrOfSS[arrOfSS[:, 0].argsort()][::-1]
-
 arrIndexBySS = applySSFactorAlgorithm(arrOfDrivers,arrOfAddress)
-
-bestRoutes = []
-isEmptyArray = False
-row = 0
-while isEmptyArray != True:
-    bestRoutes.append(arrIndexBySS[row])
-    indexForDelete = np.where( (arrIndexBySS == arrIndexBySS[row,1]) | (arrIndexBySS == arrIndexBySS[row,2]) )[0]
-    arrIndexBySS = np.delete(arrIndexBySS, indexForDelete, axis=0)
-    if len(arrIndexBySS) == 0:
-        isEmptyArray = True
+bestRoutes = getBestRoutes(arrIndexBySS)
 
 for row in bestRoutes:
     print(row)
