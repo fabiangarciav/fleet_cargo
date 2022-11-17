@@ -54,12 +54,24 @@ arrOfSS = np.array(arrOfSS)
 arrOfSS = arrOfSS[arrOfSS[:, 0].argsort()][::-1]
 
 bestRoutes = []
-bestDriver = ''
-for row in arrOfSS:
-    bestRoutes.append(row)
-    print(row[1])
-    indices = np.where( (arrOfSS == row[1]) | (arrOfSS == row[2]) )[0]
-    print(indices)
+isEmptyArray = False
+row = 0
+while isEmptyArray != True:
+    bestRoutes.append(arrOfSS[row])
+    indexForDelete = np.where( (arrOfSS == arrOfSS[row,1]) | (arrOfSS == arrOfSS[row,2]) )[0]
+    arrOfSS = np.delete(arrOfSS, indexForDelete, axis=0)
+    if len(arrOfSS) == 0:
+        isEmptyArray = True
+
+for row in bestRoutes:
+    print(row)
+
+print('asi quedo el arreglo original',arrOfSS)
+
+#arr_1D = np.array([1 ,2, 3, 4, 5, 6, 7, 8])
+ 
+#arr_1D = np.delete(arr_1D, np.where(arr_1D == 8))
+#print(arr_1D)
 
 #Iterating using while loop
 #row = 0
