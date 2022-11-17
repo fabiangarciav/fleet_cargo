@@ -29,29 +29,38 @@ def openTextFiletoArray(fileName,type):
                 array.append([ textLine ])
     return array
 
-arrOfAddress = openTextFiletoArray('C:/Users/Dell Inspiron/OneDrive/Escritorio/address.txt','address')
-arrOfDrivers = openTextFiletoArray('C:/Users/Dell Inspiron/OneDrive/Escritorio/drivers.txt','driver')
+
 
 #textFile = 'C:/Users/Dell Inspiron/OneDrive/Escritorio/address.txt'
 #datos = np.genfromtxt(textFile, delimiter=',', dtype='object')
 
-arrOfSS = []
-for driver in arrOfDrivers:
-    driversName = driver[0]
-    for address in arrOfAddress:
-        addressName = address[0]
-        if len(driversName) == len(addressName):
-            boostFactorSS = 1.5
-        else:
-            boostFactorSS = 1
-        if ( len(addressName) % 2) == 0:
-            factorSS = driver[1] * boostFactorSS * 1.5 #<-- Multiplay Vowels per Address SS factor
-        else:
-            factorSS = driver[2] * boostFactorSS * 1 #<-- Multiplay Consonants per Address SS factor
-        arrOfSS.append([factorSS, driversName, addressName]) #<-- Matrix SS value, Driver's 
 
-arrOfSS = np.array(arrOfSS)
-arrOfSS = arrOfSS[arrOfSS[:, 0].argsort()][::-1]
+def applySSFactorAlgorithm(arrOfDrivers,arrOfAddress):
+    arrIndexBySS = []
+    for driver in arrOfDrivers:
+        driversName = driver[0]
+        for address in arrOfAddress:
+            addressName = address[0]
+            if len(driversName) == len(addressName):
+                boostFactorSS = 1.5
+            else:
+                boostFactorSS = 1
+            if ( len(addressName) % 2) == 0:
+                factorSS = driver[1] * boostFactorSS * 1.5 #<-- Multiplay Vowels per Address SS factor
+            else:
+                factorSS = driver[2] * boostFactorSS * 1 #<-- Multiplay Consonants per Address SS factor
+            arrIndexBySS.append([factorSS, driversName, addressName]) #<-- Matrix SS value, Driver's 
+    arrIndexBySS = np.array(arrIndexBySS)
+    arrIndexBySS = arrIndexBySS[arrIndexBySS[:, 0].argsort()][::-1]
+    return arrIndexBySS
+
+arrOfAddress = openTextFiletoArray('C:/Users/Dell Inspiron/OneDrive/Escritorio/address.txt','address')
+arrOfDrivers = openTextFiletoArray('C:/Users/Dell Inspiron/OneDrive/Escritorio/drivers.txt','driver')
+
+#arrOfSS = np.array(arrOfSS)
+#arrOfSS = arrOfSS[arrOfSS[:, 0].argsort()][::-1]
+
+arrOfSS = applySSFactorAlgorithm(arrOfDrivers,arrOfAddress)
 
 bestRoutes = []
 isEmptyArray = False
@@ -66,58 +75,4 @@ while isEmptyArray != True:
 for row in bestRoutes:
     print(row)
 
-print('asi quedo el arreglo original',arrOfSS)
 
-#arr_1D = np.array([1 ,2, 3, 4, 5, 6, 7, 8])
- 
-#arr_1D = np.delete(arr_1D, np.where(arr_1D == 8))
-#print(arr_1D)
-
-#Iterating using while loop
-#row = 0
-#while row < len(arrOfSS):
-#    driversName = arrOfSS[row,1]
-#    addressName = arrOfSS[row,2]
-#    rowToBeAdded = arrOfSS[row,0] + "-" + addressName + "-" + driversName
-#    bestRoutes.append(rowToBeAdded)
-#    i = 0 
-#    while i < len(arrOfSS):
-#        if driversName == arrOfSS[i,1]:
- #           print (driversName , "--- ",  arrOfSS[i,1])
-#            arrOfSS = np.delete(arrOfSS, i, 0)
-#            row = 0
-#        elif addressName == arrOfSS[i,2]:
-  #          print (addressName , "--- ",  arrOfSS[i,2])
-#            arrOfSS = np.delete(arrOfSS, i, 0)
-#            row = 0
-#        i += 1
-#    row += 1
-    
-#for anyrow in bestRoutes:
-#    print (anyrow)
-#print(len(bestRoutes))
-
-#print(bestRoutes)
-# delete 0 th row
-
-#clearprint(bestRoutes)
-#def find_indices(list_to_check, item_to_find):
-#    array = np.array(list_to_check)
-#    indices = np.where(array == item_to_find)[0]
-#    return list(indices)
-
-#print(find_indices(npArrOfSS, npArrOfSS[0,2]))
-
-# Getting length of list
-#length = len(npArrOfSS)
-#i = 0
-   
-# Iterating using while loop
-#while i < length:
-#    print(npArrOfSS[i])
-#    i += 1
-
-#print( npArrOfSS[1,1] )
-#finded = np.where( arrOfSS == npArrOfSS[0,2] )
-#print(finded)
-#delete all rows that have less SS of each driver
