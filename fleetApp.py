@@ -60,16 +60,16 @@ arrOfDrivers = openTextFiletoArray('C:/Users/Dell Inspiron/OneDrive/Escritorio/d
 #arrOfSS = np.array(arrOfSS)
 #arrOfSS = arrOfSS[arrOfSS[:, 0].argsort()][::-1]
 
-arrOfSS = applySSFactorAlgorithm(arrOfDrivers,arrOfAddress)
+arrIndexBySS = applySSFactorAlgorithm(arrOfDrivers,arrOfAddress)
 
 bestRoutes = []
 isEmptyArray = False
 row = 0
 while isEmptyArray != True:
-    bestRoutes.append(arrOfSS[row])
-    indexForDelete = np.where( (arrOfSS == arrOfSS[row,1]) | (arrOfSS == arrOfSS[row,2]) )[0]
-    arrOfSS = np.delete(arrOfSS, indexForDelete, axis=0)
-    if len(arrOfSS) == 0:
+    bestRoutes.append(arrIndexBySS[row])
+    indexForDelete = np.where( (arrIndexBySS == arrIndexBySS[row,1]) | (arrIndexBySS == arrIndexBySS[row,2]) )[0]
+    arrIndexBySS = np.delete(arrIndexBySS, indexForDelete, axis=0)
+    if len(arrIndexBySS) == 0:
         isEmptyArray = True
 
 for row in bestRoutes:
