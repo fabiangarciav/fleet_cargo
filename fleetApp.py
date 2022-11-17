@@ -48,16 +48,16 @@ print(arrOfDrivers)
 boostFactorSS = 1.0
 arrOfSS = []
 for driver in arrOfDrivers:
-    driverName = str(driver[0]).replace('[','').replace(']','').replace("'",'')
+    driversName = driver[0]
     for address in arrOfAddress:
-        addressName = str(address[0]).replace('[','').replace(']','').replace("'",'')
-        if len(driver[0]) == len(address[0]):
+        addressName = address[0]
+        if len(driversName) == len(addressName):
             boostFactorSS = 1.5
         if address[1] == 1.5:
-            factorSS = float(np.multiply(driver[1], address[1]) * boostFactorSS) #<-- Multiplay Vowels per Address SS factor
+            factorSS = driver[1] * address[1] * boostFactorSS #<-- Multiplay Vowels per Address SS factor
         else:
-            factorSS = float(np.multiply(driver[2], address[1]) * boostFactorSS) #<-- Multiplay Vowels per Address SS factor
-        rowToBeAdded = [factorSS, driverName, addressName]
+            factorSS = driver[2] * address[1] * boostFactorSS #<-- Multiplay Vowels per Address SS factor
+        rowToBeAdded = [factorSS, driversName, addressName]
         arrOfSS.append(rowToBeAdded) #<-- Matrix SS value, Driver's 
 
 arrOfSS = np.array(arrOfSS)
