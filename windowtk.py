@@ -1,8 +1,6 @@
 from tkinter import *
 from tkinter import filedialog
 from fleetApp import *
-import pandas as pd
-import os
 
 #Initialize the UI enviroment and set the visual elements
 ws = Tk()
@@ -37,9 +35,10 @@ def openFile():
     arrIndexBySS = applySSFactorAlgorithm(arrOfDrivers,arrOfAddress)
     bestRoutes = getBestRoutes(arrIndexBySS)
 
-    # Insert the results into window text area
+    #Insert the results into window text area
     for row in range(len(bestRoutes)):
-        txtarea.insert(END, '--'.join(bestRoutes[row]))
+        txtrow = 'SS FACTOR: ' + bestRoutes[row][0] + ' -- DRIVER: ' + bestRoutes[row][1] + '\n DELIVERY ADDRESS: ' + bestRoutes[row][2] + '\n'
+        txtarea.insert(END, txtrow)
 
     # Show in the Window the path and file name of two txt source information
     pathh.insert(END, addresstxtfile)

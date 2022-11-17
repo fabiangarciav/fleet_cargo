@@ -22,7 +22,7 @@ def openTextFiletoArray(fileName,type):
     array = []
     if type == "driver":
         for textLine in openFile:
-            array.append([ textLine, countVowels(textLine), countConsonants(textLine) ])
+            array.append([ textLine.replace('\n',''), countVowels(textLine), countConsonants(textLine) ])
     elif type == "address":
             for textLine in openFile:
                 array.append([ textLine ])
