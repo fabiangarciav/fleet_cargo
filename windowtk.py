@@ -37,7 +37,7 @@ def openFile():
 
     #Insert the results into window text area
     for row in range(len(bestRoutes)):
-        txtrow = 'SS FACTOR: ' + bestRoutes[row][0] + ' -- DRIVER: ' + bestRoutes[row][1] + '\n DELIVERY ADDRESS: ' + bestRoutes[row][2] + '\n'
+        txtrow = 'SS FACTOR: ' + bestRoutes[row][0] + '\n -- DRIVER: ' + bestRoutes[row][1] + '\n -- DELIVERY ADDRESS: ' + bestRoutes[row][2] + '\n'
         txtarea.insert(END, txtrow)
 
     # Show in the Window the path and file name of two txt source information
