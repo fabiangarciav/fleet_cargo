@@ -17,13 +17,6 @@ def countConsonants(string):
            num_Consonants = num_Consonants + 1
     return num_Consonants
 
-# Function that return a factor value besides if string length is even or odd 
-def factorValue(txt):
-    if (len(txt) % 2) == 0:
-        return 1.5
-    else:
-        return 1.0
-
 # Function that open a text file and return an array with each text line into array
 def openTextFiletoArray(fileName,type):
     openFile = open(fileName, 'r', encoding='utf-8')
@@ -33,7 +26,7 @@ def openTextFiletoArray(fileName,type):
             array.append([ textLine, countVowels(textLine), countConsonants(textLine) ])
     elif type == "address":
             for textLine in openFile:
-                array.append([ textLine, factorValue(textLine) ])
+                array.append([ textLine ])
     return array
 
 arrOfAddress = openTextFiletoArray('C:/Users/Dell Inspiron/OneDrive/Escritorio/address.txt','address')
@@ -42,10 +35,6 @@ arrOfDrivers = openTextFiletoArray('C:/Users/Dell Inspiron/OneDrive/Escritorio/d
 #textFile = 'C:/Users/Dell Inspiron/OneDrive/Escritorio/address.txt'
 #datos = np.genfromtxt(textFile, delimiter=',', dtype='object')
 
-print(arrOfAddress)
-print(arrOfDrivers)
-
-boostFactorSS = 1.0
 arrOfSS = []
 for driver in arrOfDrivers:
     driversName = driver[0]
@@ -53,40 +42,49 @@ for driver in arrOfDrivers:
         addressName = address[0]
         if len(driversName) == len(addressName):
             boostFactorSS = 1.5
-        if address[1] == 1.5:
-            factorSS = driver[1] * address[1] * boostFactorSS #<-- Multiplay Vowels per Address SS factor
         else:
-            factorSS = driver[2] * address[1] * boostFactorSS #<-- Multiplay Vowels per Address SS factor
-        rowToBeAdded = [factorSS, driversName, addressName]
-        arrOfSS.append(rowToBeAdded) #<-- Matrix SS value, Driver's 
+            boostFactorSS = 1
+        if ( len(addressName) % 2) == 0:
+            factorSS = driver[1] * boostFactorSS * 1.5 #<-- Multiplay Vowels per Address SS factor
+        else:
+            factorSS = driver[2] * boostFactorSS * 1 #<-- Multiplay Consonants per Address SS factor
+        arrOfSS.append([factorSS, driversName, addressName]) #<-- Matrix SS value, Driver's 
 
 arrOfSS = np.array(arrOfSS)
 arrOfSS = arrOfSS[arrOfSS[:, 0].argsort()][::-1]
+
 bestRoutes = []
+bestDriver = ''
+for row in arrOfSS:
+    bestRoutes.append(row)
+    print(row[1])
+    indices = np.where( (arrOfSS == row[1]) | (arrOfSS == row[2]) )[0]
+    print(indices)
 
 #Iterating using while loop
-row = 0
-while row < len(arrOfSS):
-    driversName = arrOfSS[row,1]
-    addressName = arrOfSS[row,2]
-    rowToBeAdded = arrOfSS[row,0] + "-" + addressName + "-" + driversName
-    bestRoutes.append(rowToBeAdded)
-    i = 0 
-    while i < len(arrOfSS):
-        if driversName == arrOfSS[i,1]:
+#row = 0
+#while row < len(arrOfSS):
+#    driversName = arrOfSS[row,1]
+#    addressName = arrOfSS[row,2]
+#    rowToBeAdded = arrOfSS[row,0] + "-" + addressName + "-" + driversName
+#    bestRoutes.append(rowToBeAdded)
+#    i = 0 
+#    while i < len(arrOfSS):
+#        if driversName == arrOfSS[i,1]:
  #           print (driversName , "--- ",  arrOfSS[i,1])
-            arrOfSS = np.delete(arrOfSS, i, 0)
-            row = 0
-        elif addressName == arrOfSS[i,2]:
+#            arrOfSS = np.delete(arrOfSS, i, 0)
+#            row = 0
+#        elif addressName == arrOfSS[i,2]:
   #          print (addressName , "--- ",  arrOfSS[i,2])
-            arrOfSS = np.delete(arrOfSS, i, 0)
-            row = 0
-        i += 1
-    row += 1
+#            arrOfSS = np.delete(arrOfSS, i, 0)
+#            row = 0
+#        i += 1
+#    row += 1
     
-for anyrow in bestRoutes:
-    print (anyrow)
-print(len(bestRoutes))
+#for anyrow in bestRoutes:
+#    print (anyrow)
+#print(len(bestRoutes))
+
 #print(bestRoutes)
 # delete 0 th row
 
